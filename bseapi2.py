@@ -17,11 +17,12 @@ app = Flask(__name__)
 def webhook():
     
     req = request.get_json(silent=True, force=True)
-    companycode = req.get("companycode")
-    #parameters = result.get("parameters")
-    #companycode = parameters.get("companycode")
+    result = req.get("companycode")
+    parameters = result.get("parameters")
+    companycode = parameters.get("companycode")
+    if companycode is None:
+        return ("No company code!")
 
-    
     # make an API request here
     url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
     params = {'text': companycode }
