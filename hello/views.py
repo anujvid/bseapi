@@ -58,14 +58,3 @@ def home(companycode,pricetype):
     parsed_json = json.loads(json_string)
     return (parsed_json[pricetype])
 
-
-
-def db(request):
-
-    greeting = Greeting()
-    greeting.save()
-
-    greetings = Greeting.objects.all()
-
-    return render(request, 'db.html', {'greetings': greetings})
-
