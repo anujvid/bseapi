@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Greeting
+from flask import Flask
+
+app = Flask(__name__)
 
 # Create your views here.
 @app.route('/home/<companycode>/<pricetype>')
