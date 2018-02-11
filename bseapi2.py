@@ -40,7 +40,7 @@ def webhook():
     data2 = page2.text
     #try:
     soup = BeautifulSoup(page2.content, 'html.parser')
-    table = soup.find('td', attrs={'class':'tbmainred'})
+    table = soup.find('td')
     current_price = str(table.text)
     #except AttributeError:
     #	current_price = "Not Found!"
