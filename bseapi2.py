@@ -1,9 +1,11 @@
-import os
-import requests
-import json
 from __future__ import print_function
 from future.standard_library import install_aliases
 install_aliases()
+
+import os
+import requests
+import json
+
 from json import dumps
 from bs4 import BeautifulSoup
 #from lxml import html
