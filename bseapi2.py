@@ -59,20 +59,12 @@ def webhook():
     
     price = data[5].split(",")
     del price[5]
-
-    json_string = '{ "Previous Close" : "' + price[0] + '",'
-    json_string = json_string + '"Open" : "' + price[1] + '",'
-    json_string = json_string + '"High" : "' + price[2] + '",'
-    json_string = json_string + '"Low" : "' + price[3] + '",'
-    json_string = json_string + '"Current" : "' + current_price + '"}'
-
-    parsed_json = json.loads(json_string)
     
-    speech = "Current Price is " + (parsed_json['Current']) + \
-            ", and opening price was " + (parsed_json['Open']) +\
-            ", with a high of " + (parsed_json['High']) + \
-            ", and low of " + (parsed_json['Low']) + \
-            ". Previous closing price was " + (parsed_json['Previous Close'])
+    speech = "Current Price is " + current_price + \
+            ", and opening price was " + price[1] +\
+            ", with a high of " + price[2] + \
+            ", and low of " + price[3] + \
+            ". Previous closing price was " + price[0]
 
     return {
             "speech": speech,
