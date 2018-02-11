@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from flask import request
 from .models import Greeting
 
 # Create your views here.
