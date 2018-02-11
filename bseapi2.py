@@ -66,10 +66,9 @@ def webhook():
             ", and low of " + price[3] + \
             ". Previous closing price was " + price[0]
 
-    return {
-            "speech": speech,
-            "displayText": speech
-    }
+    returndata = {"speech": speech,"displayText": speech}
+
+    return jsonify(returndata)
 
 
 if __name__ == '__main__':
