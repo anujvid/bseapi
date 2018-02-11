@@ -4,7 +4,7 @@ import json
 
 from json import dumps
 from bs4 import BeautifulSoup
-from lxml import html
+#from lxml import html
 import re
 from flask import Flask
 from flask import request
