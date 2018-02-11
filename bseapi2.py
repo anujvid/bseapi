@@ -20,6 +20,7 @@ def webhook():
     result = req.get("companycode")
     parameters = result.get("parameters")
     companycode = parameters.get("companycode")
+    
     if companycode is None:
         return ("No company code!")
 
@@ -63,11 +64,11 @@ def webhook():
 
     parsed_json = json.loads(json_string)
     
-    speech = "Current Price is " + (parsed_json["Current"]) + \
-            ", and opening price was " + (parsed_json["Open"]) +\
-            ", with a high of " + (parsed_json["High"]) + \
-            ", and low of " + (parsed_json["Low"]) + \
-            ". Previous closing price was " + (parsed_json["Previous Close"])
+    speech = "Current Price is " + (parsed_json['Current']) + \
+            ", and opening price was " + (parsed_json['Open']) +\
+            ", with a high of " + (parsed_json['High']) + \
+            ", and low of " + (parsed_json['Low']) + \
+            ". Previous closing price was " + (parsed_json['Previous Close'])
 
     return {
             "speech": speech,
