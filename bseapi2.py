@@ -17,9 +17,9 @@ app = Flask(__name__)
 def webhook():
     
     req = request.get_json(silent=True, force=True)
-    result = req.get("result")
-    parameters = result.get("parameters")
-    companycode = parameters.get("companycode")
+    companycode = req.get("companycode")
+    #parameters = result.get("parameters")
+    #companycode = parameters.get("companycode")
 
     
     # make an API request here
@@ -79,4 +79,4 @@ if __name__ == '__main__':
 
     print("Starting app on port %d" % port)
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+    app.run(debug=True, port=port, host='0.0.0.0')
