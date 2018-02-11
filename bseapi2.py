@@ -67,7 +67,8 @@ def webhook():
             ". Previous closing price was " + price[0]
 
     returndata = {"speech": speech,"displayText": speech}
-    r = make_response(returndata)
+    res = json.dumps(returndata, indent=4)
+    r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
