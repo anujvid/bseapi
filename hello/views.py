@@ -1,20 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
-from bottle import route, template, run, debug, request, static_file, TEMPLATE_PATH
-TEMPLATE_PATH.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "view")))
-
-
+from flask import request
+from .models import Greeting
 
 # Create your views here.
 @route('/home/<companycode>/<pricetype>')
-def index(companycode,pricetype):
+def home(companycode,pricetype):
     # return HttpResponse('Hello from Python!')
-    from .models import Greeting
+    
     import requests
     import json
 
-    from bottle import response
+    
     from json import dumps
     from bs4 import BeautifulSoup
     from lxml import html
@@ -59,10 +56,7 @@ def index(companycode,pricetype):
     parsed_json = json.loads(json_string)
     return (parsed_json[pricetype])
 
-if os.environ.get('APP_LOCATION') == 'heroku':
-    run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-else:
-    run(host='localhost', port=8080, debug=True)
+
 
 def db(request):
 
