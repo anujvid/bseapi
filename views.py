@@ -1,19 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Greeting
+
 from flask import Flask
 
 app = Flask(__name__)
 
 # Create your views here.
-@app.route('/home/<companycode>/<pricetype>')
-def home(companycode,pricetype):
+@app.quote('/quote/<companycode>/<pricetype>')
+def quote(companycode,pricetype):
     # return HttpResponse('Hello from Python!')
     
     import requests
     import json
-
-    
     from json import dumps
     from bs4 import BeautifulSoup
     from lxml import html
@@ -58,3 +54,9 @@ def home(companycode,pricetype):
     parsed_json = json.loads(json_string)
     return (parsed_json[pricetype])
 
+if __name__ == '__main__':
+    port = int(os.getenv('PORT', 5000))
+
+    print("Starting app on port %d" % port)
+
+    app.run(debug=False, port=port, host='0.0.0.0')
