@@ -1,1 +1,1 @@
-web: web: python bseapi2.py
+web: python bseapi2.py
