@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from .models import Greeting
 
 # Create your views here.
-@route('/home/<companycode>/<pricetype>')
+@app.route('/home/<companycode>/<pricetype>')
 def home(companycode,pricetype):
     # return HttpResponse('Hello from Python!')
     
