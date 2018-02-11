@@ -67,8 +67,9 @@ def webhook():
             ". Previous closing price was " + price[0]
 
     returndata = {"speech": speech,"displayText": speech}
-
-    return jsonify(returndata)
+    r = make_response(returndata)
+    r.headers['Content-Type'] = 'application/json'
+    return r
 
 
 if __name__ == '__main__':
