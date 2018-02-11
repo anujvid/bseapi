@@ -66,7 +66,7 @@ def webhook():
             ", and low of " + price[3] + \
             ". Previous closing price was " + price[0]
 
-    returndata = {"speech": speech,"displayText": speech}
+    returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
     res = json.dumps(returndata, indent=4)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
