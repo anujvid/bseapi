@@ -1,11 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .models import Greeting
+
 
 # Create your views here.
 def index(companycode,pricetype):
     # return HttpResponse('Hello from Python!')
+    from .models import Greeting
+    import requests
+    import json
+
+    from bottle import response
+    from json import dumps
+    from bs4 import BeautifulSoup
+    from lxml import html
+    import re
     url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
     params = {'text': companycode }
     page = requests.get(url, params)
