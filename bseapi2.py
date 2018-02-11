@@ -17,7 +17,7 @@ app = Flask(__name__)
 def webhook():
     
     req = request.get_json(silent=True, force=True)
-    result = req.get("companycode")
+    result = req.get("result")
     parameters = result.get("parameters")
     companycode = parameters.get("companycode")
     
