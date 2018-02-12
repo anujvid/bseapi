@@ -67,7 +67,7 @@ def webhook():
 	            ", and low of " + price[3] + \
 	            ". Previous closing price was " + price[0]
 	except:
-	 	speech = "An error occurred while fetching the data! Please try later"
+		speech = "An error occurred while fetching the data! Please try later"
 
 
     returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
