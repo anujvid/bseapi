@@ -5,6 +5,7 @@ install_aliases()
 import os
 import requests
 import json
+import sys
 
 from json import dumps
 from bs4 import BeautifulSoup
@@ -43,9 +44,9 @@ def webhook():
 	    soup = BeautifulSoup(page2.content, 'html.parser')
 	    table = soup.find('td')
 	    current_price = str(table.text)
-    #except AttributeError:
-    #	current_price = "Not Found!"
-    #print (current_price)
+	    #except AttributeError:
+	    #	current_price = "Not Found!"
+	    #print (current_price)
     
     
 	    data = re.sub('[^ 0-9,.|#:]', '', data)
@@ -66,6 +67,7 @@ def webhook():
 	            ", with a high of " + price[2] + \
 	            ", and low of " + price[3] + \
 	            ". Previous closing price was " + price[0]
+
 	except:
 		speech = "An error occurred while fetching the data! Please try later"
 
