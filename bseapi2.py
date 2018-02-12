@@ -28,43 +28,47 @@ def webhook():
     if companycode is None:
         return ("No company code!")
 
+    try:
     # make an API request here
-    url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
-    params = {'text': companycode }
-    page = requests.get(url, params)
-    data = page.text
-    
-    url2 = "https://www.bseindia.com/stock-share-price/SiteCache/IrBackupStockReach.aspx"
-    params2 = {'DebtFlag' : 'C', 'scripcode': companycode }
-    page2 = requests.get(url2, params2)
-    data2 = page2.text
-    #try:
-    soup = BeautifulSoup(page2.content, 'html.parser')
-    table = soup.find('td')
-    current_price = str(table.text)
+	    url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
+	    params = {'text': companycode }
+	    page = requests.get(url, params)
+	    data = page.text
+	    
+	    url2 = "https://www.bseindia.com/stock-share-price/SiteCache/IrBackupStockReach.aspx"
+	    params2 = {'DebtFlag' : 'C', 'scripcode': companycode }
+	    page2 = requests.get(url2, params2)
+	    data2 = page2.text
+	    #try:
+	    soup = BeautifulSoup(page2.content, 'html.parser')
+	    table = soup.find('td')
+	    current_price = str(table.text)
     #except AttributeError:
     #	current_price = "Not Found!"
     #print (current_price)
     
     
-    data = re.sub('[^ 0-9,.|#:]', '', data)
-    data = data.replace('##','|')
-    #print (data)
-    
-    
-    data = data.replace('#','|')
-    data = data.replace(' ','')
-    data = data.split('|')
-    #print (data)
-    
-    price = data[5].split(",")
-    del price[5]
-    
-    speech = "Current Price is " + current_price + \
-            ", and opening price was " + price[1] +\
-            ", with a high of " + price[2] + \
-            ", and low of " + price[3] + \
-            ". Previous closing price was " + price[0]
+	    data = re.sub('[^ 0-9,.|#:]', '', data)
+	    data = data.replace('##','|')
+	    #print (data)
+	    
+	    
+	    data = data.replace('#','|')
+	    data = data.replace(' ','')
+	    data = data.split('|')
+	    #print (data)
+	    
+	    price = data[5].split(",")
+	    del price[5]
+	    
+	    speech = "Current Price is " + current_price + \
+	            ", and opening price was " + price[1] +\
+	            ", with a high of " + price[2] + \
+	            ", and low of " + price[3] + \
+	            ". Previous closing price was " + price[0]
+	 except:
+	 	speech = "An error occurred while fetching the data! Please try later"
+
 
     returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
     res = json.dumps(returndata, indent=4)
