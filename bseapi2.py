@@ -66,7 +66,7 @@ def webhook():
 	            ", with a high of " + price[2] + \
 	            ", and low of " + price[3] + \
 	            ". Previous closing price was " + price[0]
-	 except:
+	except:
 	 	speech = "An error occurred while fetching the data! Please try later"
 
 
