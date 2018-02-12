@@ -69,7 +69,7 @@ def webhook():
 				". Previous closing price was " + price[0]
 
 	except:
-                speech = "An error occurred while fetching the data! Please try later"
+                speech = "An error occurred while fetching the data! The company code does not seem correct!"
 
 	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
 	res = json.dumps(returndata, indent=4)
