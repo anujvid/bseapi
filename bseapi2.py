@@ -28,7 +28,7 @@ def webhook():
 	companyname = parameters.get("companyname")
 	
 	if companyname is None:
-		speech = "No company code!"
+		query = companycode
 
 	else:
                 json_filename = "BSECodes.json"
@@ -38,6 +38,7 @@ def webhook():
 
                 # decoding the JSON to dictionay
                 d = json.loads(data)
+                query = companyname
 
                 try:
                         result = list([k for k in d if (companyname).lower() in k])
@@ -79,7 +80,7 @@ def webhook():
 		price = data[5].split(",")
 		del price[5]
 		
-		speech = "For " + str(companyname).upper() + \
+		speech = "For " + str(query).upper() + \
 				" Current Price is " + current_price[0] + \
 				", and opening price was " + price[1] +\
 				", with a high of " + price[2] + \
