@@ -25,9 +25,28 @@ def webhook():
 	result = req.get("result")
 	parameters = result.get("parameters")
 	companycode = parameters.get("companycode")
+	companyname = parameters.get("companyname")
 	
-	if companycode is None:
-		return ("No company code!")
+	if companycode && companyname is None:
+		speech = "No company code!"
+
+	json_filename = "BSECodes.json"
+	# reads it back
+	with open(json_filename,"r") as f:
+		data = f.read()
+
+	# decoding the JSON to dictionay
+	d = json.loads(data)
+
+	try:
+                result = list([k for k in d if (companyname).lower() in k])
+    	#print ("Comapnies found " + str(len(result)))
+                companycode = d[result[0]]
+    	#print ("Code for " + result[0].upper() + " = " + d[result[0]]['CompanyCode'] )
+    
+	except:
+                speech = "An error occurred while fetching the data!"	
+
 
 	try:
 	# make an API request here
@@ -40,14 +59,11 @@ def webhook():
 		params2 = {'DebtFlag' : 'C', 'scripcode': companycode }
 		page2 = requests.get(url2, params2)
 		data2 = page2.text
-		#try:
+		
 		soup = BeautifulSoup(page2.content, 'html.parser')
-		table = soup.find('td')
-		current_price = str(table.text)
-		#except AttributeError:
-		#	current_price = "Not Found!"
-		#print (current_price)
-	
+		current_price = []
+                for cell in soup.find_all('td'):
+                        current_price.append(cell.get_text('td'))
 	
 		data = re.sub('[^ 0-9,.|#:]', '', data)
 		data = data.replace('##','|')
@@ -62,20 +78,27 @@ def webhook():
 		price = data[5].split(",")
 		del price[5]
 		
-		speech = "Current Price is " + current_price + \
+		speech = "For " + str(companyname).upper() + \
+				" Current Price is " + current_price[0] + \
 				", and opening price was " + price[1] +\
 				", with a high of " + price[2] + \
 				", and low of " + price[3] + \
-				". Previous closing price was " + price[0]
+				". Previous closing price was " + price[0] +\
+				". Price changed by " + price[3] +\
+				", percentage change of " + price[4]
 
 	except:
-                speech = "An error occurred while fetching the data! The company code does not seem correct!"
+		speech = "An error occurred while fetching the data!"
 
+	
+
+	return responsedata(speech)
+
+def responsedata(speech):
 	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
 	res = json.dumps(returndata, indent=4)
 	r = make_response(res)
 	r.headers['Content-Type'] = 'application/json'
-
 	return r
 
 
