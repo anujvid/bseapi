@@ -42,7 +42,7 @@ def webhook():
                 try:
                         result = list([k for k in d if (companyname).lower() in k])
                         #print ("Comapnies found " + str(len(result)))
-                        companycode = d[result[0]]
+                        companycode = d[result[0]]['CompanyCode']
                 except:
                         speech = "An error occurred while fetching the data!"	
 
@@ -84,9 +84,9 @@ def webhook():
 				", and opening price was " + price[1] +\
 				", with a high of " + price[2] + \
 				", and low of " + price[3] + \
-				". Previous closing price was " + price[0] +\
-				". Price changed by " + price[3] +\
-				", percentage change of " + price[4]
+				". Previous closing price was " + current_price[0] +\
+				". Price changed by " + current_price[3] +\
+				", percentage change of " + current_price[4]
 
 	except:
 		speech = "An error occurred while fetching the data!"
