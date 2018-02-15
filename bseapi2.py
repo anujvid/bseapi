@@ -62,7 +62,7 @@ def webhook():
 		soup = BeautifulSoup(page2.content, 'html.parser')
 		current_price = []
 
-                for cell in soup.find_all('td'):
+		for cell in soup.find_all('td'):
                         current_price.append(cell.get_text('td'))
 	
 
