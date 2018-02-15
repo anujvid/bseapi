@@ -48,7 +48,7 @@ def webhook():
 
 
 	try:
-	# make an API request here
+                # make an API request here
 		url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
 		params = {'text': companycode }
 		page = requests.get(url, params)
@@ -61,6 +61,7 @@ def webhook():
 		
 		soup = BeautifulSoup(page2.content, 'html.parser')
 		current_price = []
+
                 for cell in soup.find_all('td'):
                         current_price.append(cell.get_text('td'))
 	
