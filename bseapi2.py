@@ -44,6 +44,7 @@ def webhook():
                         result = list([k for k in d if (companyname).lower() in k])
                         #print ("Comapnies found " + str(len(result)))
                         companycode = d[result[0]]['CompanyCode']
+                        query = result[0]
                 except:
                         speech = "An error occurred while fetching the data!"	
 
