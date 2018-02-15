@@ -33,8 +33,8 @@ def webhook():
 	else:
                 json_filename = "BSECodes.json"
                 # reads it back
-                with open(json_filename,"r") as f
-                data = f.read()
+                with open(json_filename,"r") as f:
+                        data = f.read()
 
                 # decoding the JSON to dictionay
                 d = json.loads(data)
