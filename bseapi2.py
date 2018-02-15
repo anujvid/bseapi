@@ -29,11 +29,12 @@ def webhook():
 	
 	if companyname is None:
 		speech = "No company code!"
-        else:
+
+	else:
                 json_filename = "BSECodes.json"
                 # reads it back
-                with open(json_filename,"r") as f:
-                        data = f.read()
+                with open(json_filename,"r") as f
+                data = f.read()
 
                 # decoding the JSON to dictionay
                 d = json.loads(data)
@@ -42,7 +43,6 @@ def webhook():
                         result = list([k for k in d if (companyname).lower() in k])
                         #print ("Comapnies found " + str(len(result)))
                         companycode = d[result[0]]
-    
                 except:
                         speech = "An error occurred while fetching the data!"	
 
