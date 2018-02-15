@@ -65,6 +65,7 @@ def webhook():
                 for cell in soup.find_all('td'):
                         current_price.append(cell.get_text('td'))
 	
+
 		data = re.sub('[^ 0-9,.|#:]', '', data)
 		data = data.replace('##','|')
 		#print (data)
