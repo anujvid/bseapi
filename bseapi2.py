@@ -34,6 +34,7 @@ def webhook():
 		companycode = getcompnaycode(companyname)
 		query = companyname
 
+	speech = "No action taken!"
 
 	if action == "getstockprice_byname":
 		
