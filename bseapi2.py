@@ -92,13 +92,13 @@ def webhook():
 
 	except:
 		speech = "An error occurred while fetching the data!"
-
+                messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ] '
 	
 
-	return responsedata(speech)
+	return responsedata(speech,messages)
 
-def responsedata(speech):
-	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
+def responsedata(speech,messages):
+	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj", "messages": messages}
 	res = json.dumps(returndata, indent=4)
 	r = make_response(res)
 	r.headers['Content-Type'] = 'application/json'
