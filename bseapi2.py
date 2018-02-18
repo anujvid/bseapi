@@ -95,7 +95,7 @@ def webhook():
 		#messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
 	
 
-	return responsedata(speech,messages)
+	return responsedata(speech)
 
 def responsedata(speech):
 	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
