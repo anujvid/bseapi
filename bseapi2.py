@@ -33,7 +33,7 @@ def webhook():
 		query = companycode
 	else:
 		companycode = getcompnaycode(companyname)
-		query = companyname
+		query = getcompnayname(companyname)
 
 	speech = "No action taken!-" + action
 
@@ -77,6 +77,25 @@ def getcompnaycode(companyname):
                 return None
 
         return companycode
+
+def getcompnayname(companyname):
+
+        json_filename = "BSECodes.json"
+        # reads it back
+        with open(json_filename,"r") as f:
+                data = f.read()
+                # decoding the JSON to dictionay
+                d = json.loads(data)
+                query = companyname
+        try:
+                result = list([k for k in d if (companyname).lower() in k])
+                #print ("Comapnies found " + str(len(result)))
+                companycode = d[result[0]]['CompanyCode']
+                query = result[0]
+        except:
+                return None
+
+        return query
 
 def getstockquote(companycode,query):
 	try:
