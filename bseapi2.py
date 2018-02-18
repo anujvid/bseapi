@@ -144,9 +144,11 @@ def getperformance(companycode,query):
 		for a in table.find_all('td','newseoscripfig'):
 			data.append(a.get_text())
 		
-		speech = "For " + str(query).upper() + "\n As on " + header[3] + "\n"
-		for x in len(results):
+		x = 0
+		speech = "For " + str(query).upper() + "\nAs on " + header[3] + "\n"
+		for list in results:
 			speech = speech + (results[x] + " = " + data[x+2] + "\n")
+			x = x+1
 
 	except:
 		speech = "An error occurred while fetching the data!"
