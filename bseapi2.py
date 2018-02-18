@@ -31,25 +31,42 @@ def webhook():
 		query = companycode
 
 	else:
-                json_filename = "BSECodes.json"
-                # reads it back
-                with open(json_filename,"r") as f:
-                        data = f.read()
+                companycode = getcompnaycode(companyname)
+                if companycode is None:
+                        speech = "An error occurred while fetching the data!"
+                else:
+                        speech = getstockquote(companycode,query)
 
+        return responsedata(speech)
+
+def responsedata(speech):
+	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
+	res = json.dumps(returndata, indent=4)
+	r = make_response(res)
+	r.headers['Content-Type'] = 'application/json'
+	return r
+
+def getcompnaycode(companyname):
+
+        json_filename = "BSECodes.json"
+        # reads it back
+        with open(json_filename,"r") as f:
+                data = f.read()
                 # decoding the JSON to dictionay
                 d = json.loads(data)
                 query = companyname
+        try:
+                result = list([k for k in d if (companyname).lower() in k])
+                #print ("Comapnies found " + str(len(result)))
+                companycode = d[result[0]]['CompanyCode']
+                query = result[0]
+        except:
+                return None
 
-                try:
-                        result = list([k for k in d if (companyname).lower() in k])
-                        #print ("Comapnies found " + str(len(result)))
-                        companycode = d[result[0]]['CompanyCode']
-                        query = result[0]
-                except:
-                        speech = "An error occurred while fetching the data!"	
+        return companycode
 
-
-	try:
+def getstockquote(companycode,query):
+        try:
                 # make an API request here
 		url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
 		params = {'text': companycode }
@@ -93,18 +110,13 @@ def webhook():
 	except:
 		speech = "An error occurred while fetching the data!"
 		#messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
-	
-
-	return responsedata(speech)
-
-def responsedata(speech):
-	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
-	res = json.dumps(returndata, indent=4)
-	r = make_response(res)
-	r.headers['Content-Type'] = 'application/json'
-	return r
+		
+	return speech
 
 
+
+
+        
 if __name__ == '__main__':
 	port = int(os.getenv('PORT', 5000))
 
