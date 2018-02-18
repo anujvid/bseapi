@@ -26,7 +26,10 @@ def webhook():
 	parameters = result.get("parameters")
 	companycode = parameters.get("companycode")
 	companyname = parameters.get("companyname")
+	performance = parameters.get("performance")
 	
+	
+
 	if companyname is None:
 		query = companycode
 
@@ -37,7 +40,10 @@ def webhook():
 		if companycode is None:
 			speech = "An error occurred while fetching the data!"
 	
-	speech = getstockquote(companycode,query)
+	if performance is None:
+		speech = getstockquote(companycode,query)
+	else:
+		speech = getperformance(companycode,query)
 
 	return responsedata(speech)
 
@@ -115,8 +121,34 @@ def getstockquote(companycode,query):
 		
 	return speech
 
+def getperformance(companycode,query):
 
+	try:
+		url = 'https://www.bseindia.com/stock-share-price/SiteCache/TabResult.aspx'
+		params = {'text': companycode, 'type': 'results' }
+		r = requests.get(url, params)
+		soup = BeautifulSoup(r.content, 'html.parser')
+		header = []
+		table =  soup('table')[1].findAll('tr')[0]
+		for td in table.find_all('td','indextabhead'):
+			header.append(td.string)
 
+		results = []
+		for a in table.find_all('td','newseoscriptext'):
+			results.append(a.get_text())
+
+		data = []
+		for a in table.find_all('td','newseoscripfig'):
+			data.append(a.get_text())
+		
+		speech = "For " + str(query).upper() + "\n As on " + header[3] + "\n"
+		for x in len(results):
+			speech = speech + (results[x] + " = " + data[x+2] + "\n")
+
+	except:
+		speech = "An error occurred while fetching the data!"
+
+	return speech
 
         
 if __name__ == '__main__':
