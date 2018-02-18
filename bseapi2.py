@@ -39,6 +39,7 @@ def webhook():
 
         return responsedata(speech)
 
+
 def responsedata(speech):
 	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
 	res = json.dumps(returndata, indent=4)
