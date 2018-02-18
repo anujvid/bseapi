@@ -32,10 +32,12 @@ def webhook():
 
 	else:
 		companycode = getcompnaycode(companyname)
+		query = companyname
+
 		if companycode is None:
 			speech = "An error occurred while fetching the data!"
-		else:
-			speech = getstockquote(companycode,query)
+	
+	speech = getstockquote(companycode,query)
 
 	return responsedata(speech)
 
