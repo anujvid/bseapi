@@ -92,7 +92,7 @@ def webhook():
 
 	except:
 		speech = "An error occurred while fetching the data!"
-                messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ] '
+		messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
 	
 
 	return responsedata(speech,messages)
