@@ -26,7 +26,7 @@ def webhook():
 	parameters = result.get("parameters")
 	companycode = parameters.get("companycode")
 	companyname = parameters.get("companyname")
-	action = parameters.get("action")
+	action = result.get("action")
 	
 	if companyname is None:
 		query = companycode
@@ -36,17 +36,17 @@ def webhook():
 
 	speech = "No action taken!"
 
-	if action == 'getstockprice_byname':
+	if action is 'getstockprice_byname':
 		
 		if companycode is None:
 			speech = "An error occurred while fetching the data!"
 		else:
 			speech = getstockquote(companycode,query)
 
-	if action == 'getstockprice':
+	if action is 'getstockprice':
 		speech = getstockquote(companycode,query)
 
-	if action == 'getperformance':
+	if action is 'getperformance':
 		speech = getperformance(companycode,query)
 
 	return responsedata(speech)
