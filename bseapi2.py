@@ -80,7 +80,7 @@ def webhook():
 		
 		price = data[5].split(",")
 		del price[5]
-		messages = ''
+		messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
 		speech = "For " + str(query).upper() + \
 				" Current Price is " + current_price[0] + \
 				", and opening price was " + price[1] +\
