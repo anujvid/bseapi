@@ -31,14 +31,13 @@ def webhook():
 		query = companycode
 
 	else:
-                companycode = getcompnaycode(companyname)
-                if companycode is None:
-                        speech = "An error occurred while fetching the data!"
-                else:
-                        speech = getstockquote(companycode,query)
+		companycode = getcompnaycode(companyname)
+		if companycode is None:
+			speech = "An error occurred while fetching the data!"
+		else:
+			speech = getstockquote(companycode,query)
 
-        return responsedata(speech)
-
+	return responsedata(speech)
 
 def responsedata(speech):
 	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
@@ -67,8 +66,8 @@ def getcompnaycode(companyname):
         return companycode
 
 def getstockquote(companycode,query):
-        try:
-                # make an API request here
+	try:
+        # make an API request here
 		url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
 		params = {'text': companycode }
 		page = requests.get(url, params)
@@ -83,7 +82,7 @@ def getstockquote(companycode,query):
 		current_price = []
 
 		for cell in soup.find_all('td'):
-                        current_price.append(cell.get_text('td'))
+			current_price.append(cell.get_text('td'))
 	
 
 		data = re.sub('[^ 0-9,.|#:]', '', data)
