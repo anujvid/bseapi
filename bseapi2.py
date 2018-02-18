@@ -23,10 +23,11 @@ def webhook():
 	
 	req = request.get_json(silent=True, force=True)
 	result = req.get("result")
+	action = result.get("action")
 	parameters = result.get("parameters")
 	companycode = parameters.get("companycode")
 	companyname = parameters.get("companyname")
-	action = result.get("action")
+	
 	
 	if companyname is None:
 		query = companycode
@@ -34,7 +35,7 @@ def webhook():
 		companycode = getcompnaycode(companyname)
 		query = companyname
 
-	speech = "No action taken!"
+	speech = "No action taken!-" + action
 
 	if action is 'getstockprice_byname':
 		
