@@ -80,7 +80,7 @@ def webhook():
 		
 		price = data[5].split(",")
 		del price[5]
-		messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
+		#messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
 		speech = "For " + str(query).upper() + \
 				" Current Price is " + current_price[0] + \
 				", and opening price was " + price[1] +\
@@ -92,13 +92,13 @@ def webhook():
 
 	except:
 		speech = "An error occurred while fetching the data!"
-		messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
+		#messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
 	
 
 	return responsedata(speech,messages)
 
-def responsedata(speech,messages):
-	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj", "messages": messages}
+def responsedata(speech):
+	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
 	res = json.dumps(returndata, indent=4)
 	r = make_response(res)
 	r.headers['Content-Type'] = 'application/json'
