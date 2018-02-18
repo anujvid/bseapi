@@ -36,17 +36,17 @@ def webhook():
 
 	speech = "No action taken!"
 
-	if action == "getstockprice_byname":
+	if action == 'getstockprice_byname':
 		
 		if companycode is None:
 			speech = "An error occurred while fetching the data!"
 		else:
 			speech = getstockquote(companycode,query)
 
-	if action == "getstockprice":
+	if action == 'getstockprice':
 		speech = getstockquote(companycode,query)
 
-	if action == "getperformance":
+	if action == 'getperformance':
 		speech = getperformance(companycode,query)
 
 	return responsedata(speech)
