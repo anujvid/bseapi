@@ -147,10 +147,12 @@ def getperformance(companycode,query):
 			data.append(a.get_text())
 		
 		x = 0
+		y = 2
 		speech = "For " + str(query).upper() + "\nAs on " + header[3] + "\n"
 		for list in results:
-			speech = speech + (results[x] + " = " + data[x+2] + "\n")
+			speech = speech + (results[x] + " = " + data[y] + "\n")
 			x = x+1
+			y = y+3
 
 	except:
 		speech = "An error occurred while fetching the data!"
