@@ -50,7 +50,7 @@ def webhook():
 	if action == 'getperformance':
 		speech = getperformance(companycode,query)
 
-	if action == 'getbseindex'
+	if action == 'getbseindex':
 		speech = getbseindex()
 
 
