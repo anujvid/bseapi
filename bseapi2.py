@@ -189,7 +189,11 @@ def getbseindex():
         page = requests.get(url)
         data = page.text
         data = data.split(',')
-        speech = data [0] + ": " +data [1] + " Change of " + data [2] + " points and % of " + data[3] 
+        w= 1.00417 
+        b= -0.144424
+        x = float(data[1])/1000
+        newindex = (x*w)+b
+        speech = data [0] + ": " +data [1] + " Change of " + data [2] + " points and % of " + data[3] + " and my prediction is : " + str(newindex) 
     except:
         speech = "Sorry! unable to fetch data."
     return (speech)
