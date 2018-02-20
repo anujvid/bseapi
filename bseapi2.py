@@ -192,7 +192,7 @@ def getbseindex():
         w= 1.00417 
         b= -0.144424
         x = float(data[1])
-        newindex = int((x*w)+b)
+        newindex = round(((x*w)+b),2)
         speech = data [0] + ": " +data [1] + " Change of " + data [2] + " points and % of " + data[3] + " and my prediction is : " + str(newindex) 
     except:
         speech = "Sorry! unable to fetch data."
