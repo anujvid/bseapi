@@ -50,6 +50,10 @@ def webhook():
 	if action == 'getperformance':
 		speech = getperformance(companycode,query)
 
+	if action == 'getbseindex'
+		speech = getbseindex()
+
+
 	return responsedata(speech)
 
 def responsedata(speech):
@@ -178,6 +182,18 @@ def getperformance(companycode,query):
 
 	return speech
 
+def getbseindex():
+    try:
+        # make an API request here
+        url = "https://www.bseindia.com/Msource/IndexMovers.aspx?ln=en"
+        page = requests.get(url)
+        data = page.text
+        data = data.split(',')
+        speech = data [0] + ": " +data [1] + " Change of " + data [2] + " points and % of " + data[3] 
+    except:
+        speech = "Sorry! unable to fetch data."
+    return (speech)
+    
         
 if __name__ == '__main__':
 	port = int(os.getenv('PORT', 5000))
