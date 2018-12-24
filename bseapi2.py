@@ -1,19 +1,15 @@
-from __future__ import print_function
-from future.standard_library import install_aliases
-install_aliases()
-
 import os
-import requests
 import json
 import sys
-
 from json import dumps
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 #from lxml import html
 import re
 from flask import Flask
 from flask import request
 from flask import make_response
+
+
 
 app = Flask(__name__)
 
