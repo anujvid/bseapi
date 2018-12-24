@@ -20,48 +20,48 @@ app = Flask(__name__)
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-	
-	req = request.get_json(silent=True, force=True)
-	result = req.get("result")
-	action = result.get("action")
-	parameters = result.get("parameters")
-	companycode = parameters.get("companycode")
-	companyname = parameters.get("companyname")
-	
-	
-	if companyname is None:
-		query = companycode
-	else:
-		companycode = getcompnaycode(companyname)
-		query = getcompnayname(companyname)
+        
+        req = request.get_json(silent=True, force=True)
+        result = req.get("result")
+        action = result.get("action")
+        parameters = result.get("parameters")
+        companycode = parameters.get("companycode")
+        companyname = parameters.get("companyname")
+        
+        
+        if companyname is None:
+                query = companycode
+        else:
+                companycode = getcompnaycode(companyname)
+                query = getcompnayname(companyname)
 
-	speech = "No action taken!-" + action
+        speech = "No action taken!-" + action
 
-	if action == 'getstockprice_byname':
-		
-		if companycode is None:
-			speech = "An error occurred while fetching the data!"
-		else:
-			speech = getstockquote(companycode,query)
+        if action == 'getstockprice_byname':
+                
+                if companycode is None:
+                        speech = "An error occurred while fetching the data!"
+                else:
+                        speech = getstockquote(companycode,query)
 
-	if action == 'getstockprice':
-		speech = getstockquote(companycode,query)
+        if action == 'getstockprice':
+                speech = getstockquote(companycode,query)
 
-	if action == 'getperformance':
-		speech = getperformance(companycode,query)
+        if action == 'getperformance':
+                speech = getperformance(companycode,query)
 
-	if action == 'getbseindex':
-		speech = getbseindex()
+        if action == 'getbseindex':
+                speech = getbseindex()
 
 
-	return responsedata(speech)
+        return responsedata(speech)
 
 def responsedata(speech):
-	returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
-	res = json.dumps(returndata, indent=4)
-	r = make_response(res)
-	r.headers['Content-Type'] = 'application/json'
-	return r
+        returndata = {"speech": speech,"displayText": speech, "source": "stock-quote-by-anuj"}
+        res = json.dumps(returndata, indent=4)
+        r = make_response(res)
+        r.headers['Content-Type'] = 'application/json'
+        return r
 
 def getcompnaycode(companyname):
 
@@ -102,60 +102,59 @@ def getcompnayname(companyname):
         return query
 
 def getstockquote(companycode,query):
-	try:
-        # make an API request here
+        try:
                 Price_url = "https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w"
                 Price_params = {'scripcode': companycode, 'Debtflag' : '', 'seriesid': ''}
                 Price_page = requests.get(Price_url , Price_params)
                 Price_json = json.loads(Price_page.content)
-		
-		speech = "For " + str(query).upper() + \
-				" Current Price is " + Price_json ['Header']['LTP'] + \
-				", and opening price was " + Price_json ['Header']['Open'] +\
-				", with a high of " + Price_json ['Header']['High'] + \
-				", and low of " + Price_json ['Header']['Low'] + \
-				". Previous closing price was " + Price_json ['Header']['PrevClose'] +\
-				". Price changed by " + Price_json ['CurrRate']['Chg'] +\
-				", percentage change of " + Price_json ['CurrRate']['PcChg']
 
-	except:
-		speech = "An error occurred while fetching the data!"
-		#messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
-		
-	return speech
+                speech = "For " + str(query).upper() + \
+                        " Current Price is " + Price_json ['Header']['LTP'] + \
+                        ", and opening price was " + Price_json ['Header']['Open'] +\
+                        ", with a high of " + Price_json ['Header']['High'] + \
+                        ", and low of " + Price_json ['Header']['Low'] + \
+                        ". Previous closing price was " + Price_json ['Header']['PrevClose'] +\
+                        ". Price changed by " + Price_json ['CurrRate']['Chg'] +\
+                        ", percentage change of " + Price_json ['CurrRate']['PcChg']
+
+        except:
+                speech = "An error occurred while fetching the data!"
+                #messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
+                
+        return speech
 
 def getperformance(companycode,query):
 
-	try:
-		url = 'https://www.bseindia.com/stock-share-price/SiteCache/TabResult.aspx'
-		params = {'text': companycode, 'type': 'results' }
-		r = requests.get(url, params)
-		soup = BeautifulSoup(r.content, 'html.parser')
-		header = []
-		table =  soup('table')[1].findAll('tr')[0]
-		for td in table.find_all('td','indextabhead'):
-			header.append(td.string)
+        try:
+                url = 'https://www.bseindia.com/stock-share-price/SiteCache/TabResult.aspx'
+                params = {'text': companycode, 'type': 'results' }
+                r = requests.get(url, params)
+                soup = BeautifulSoup(r.content, 'html.parser')
+                header = []
+                table =  soup('table')[1].findAll('tr')[0]
+                for td in table.find_all('td','indextabhead'):
+                        header.append(td.string)
 
-		results = []
-		for a in table.find_all('td','newseoscriptext'):
-			results.append(a.get_text())
+                results = []
+                for a in table.find_all('td','newseoscriptext'):
+                        results.append(a.get_text())
 
-		data = []
-		for a in table.find_all('td','newseoscripfig'):
-			data.append(a.get_text())
-		
-		x = 0
-		y = 2
-		speech = "For " + str(query).upper() + "\nAs on " + header[3] + "\n"
-		for list in results:
-			speech = speech + (results[x] + " = " + data[y] + "\n")
-			x = x+1
-			y = y+3
+                data = []
+                for a in table.find_all('td','newseoscripfig'):
+                        data.append(a.get_text())
+                
+                x = 0
+                y = 2
+                speech = "For " + str(query).upper() + "\nAs on " + header[3] + "\n"
+                for list in results:
+                        speech = speech + (results[x] + " = " + data[y] + "\n")
+                        x = x+1
+                        y = y+3
 
-	except:
-		speech = "An error occurred while fetching the data!"
+        except:
+                speech = "An error occurred while fetching the data!"
 
-	return speech
+        return speech
 
 def getbseindex():
     try:
@@ -175,8 +174,8 @@ def getbseindex():
     
         
 if __name__ == '__main__':
-	port = int(os.getenv('PORT', 5000))
+        port = int(os.getenv('PORT', 5000))
 
-	print("Starting app on port %d" % port)
+        print("Starting app on port %d" % port)
 
-	app.run(debug=True, port=port, host='0.0.0.0')
+        app.run(debug=True, port=port, host='0.0.0.0')
