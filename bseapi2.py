@@ -1,5 +1,9 @@
+from __future__ import print_function
+from future.standard_library import install_aliases
+install_aliases()
 
 import os
+import requests
 import json
 import sys
 
@@ -101,7 +105,7 @@ def getstockquote(companycode,query):
         try:
                 Price_url = "https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w"
                 Price_params = {'scripcode': companycode, 'Debtflag' : '', 'seriesid': ''}
-                Price_page = request.get(Price_url , Price_params)
+                Price_page = requests.get(Price_url , Price_params)
                 Price_json = json.loads(Price_page.content)
 
                 speech = "For " + str(query).upper() + \
