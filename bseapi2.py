@@ -104,44 +104,24 @@ def getcompnayname(companyname):
 def getstockquote(companycode,query):
 	try:
         # make an API request here
-		url = 'https://www.bseindia.com/stock-share-price/SiteCache/EQHeaderData.aspx'
-		params = {'text': companycode }
-		page = requests.get(url, params)
-		data = page.text
+                Price_url = "https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w"
+                Price_params = {'scripcode': companycode, 'Debtflag' : '', 'seriesid': ''}
+                Price_page = requests.get(Price_url , Price_params)
+                Price_json = json.loads(Price_page.content)
 		
-		url2 = "https://www.bseindia.com/stock-share-price/SiteCache/IrBackupStockReach.aspx"
-		params2 = {'DebtFlag' : 'C', 'scripcode': companycode }
-		page2 = requests.get(url2, params2)
-		data2 = page2.text
+		print (Price_json ['Header']['LTP'])
+                print (Price_json ['Header']['PrevClose'])
+                print (Price_json ['Header']['Open'])
+                print (Price_json ['Header']['High'])
 		
-		soup = BeautifulSoup(page2.content, 'html.parser')
-		current_price = []
-
-		for cell in soup.find_all('td'):
-			current_price.append(cell.get_text('td'))
-	
-
-		data = re.sub('[^ 0-9,.|#:]', '', data)
-		data = data.replace('##','|')
-		#print (data)
-		
-		
-		data = data.replace('#','|')
-		data = data.replace(' ','')
-		data = data.split('|')
-		#print (data)
-		
-		price = data[5].split(",")
-		del price[5]
-		#messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
 		speech = "For " + str(query).upper() + \
-				" Current Price is " + current_price[0] + \
-				", and opening price was " + price[1] +\
-				", with a high of " + price[2] + \
-				", and low of " + price[3] + \
-				". Previous closing price was " + current_price[0] +\
-				". Price changed by " + current_price[3] +\
-				", percentage change of " + current_price[4]
+				" Current Price is " + Price_json ['Header']['LTP'] + \
+				", and opening price was " + Price_json ['Header']['Open'] +\
+				", with a high of " + Price_json ['Header']['High'] + \
+				", and low of " + Price_json ['Header']['Low'] + \
+				". Previous closing price was " + Price_json ['Header']['PrevClose'] +\
+				". Price changed by " + Price_json ['CurrRate']['Chg'] +\
+				", percentage change of " + Price_json ['CurrRate']['PcChg']
 
 	except:
 		speech = "An error occurred while fetching the data!"
