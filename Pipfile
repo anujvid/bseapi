@@ -11,7 +11,7 @@ gunicorn = "*"
 django-heroku = "*"
 flask = "*"
 requests = "*"
-BeautifulSoup ="*"
+beautifulsoup4 ="*"
 
 
 [requires]
