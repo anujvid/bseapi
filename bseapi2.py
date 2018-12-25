@@ -100,55 +100,55 @@ def getcompnayname(companyname):
         return query
 
 def getstockquote(companycode,query):
-        #try:
+        try:
                 Price_url = "https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w"
                 Price_params = {'scripcode': companycode, 'Debtflag' : '', 'seriesid': ''}
                 Price_page = requests.get(Price_url , Price_params)
                 Price_json = json.loads(Price_page.content)
 
                 speech = "For " + str(query).upper() + \
-                        " Current Price is " + Price_json ['Header']['LTP'] + \
-                        ", and opening price was " + Price_json ['Header']['Open'] +\
-                        ", with a high of " + Price_json ['Header']['High'] + \
-                        ", and low of " + Price_json ['Header']['Low'] + \
-                        ". Previous closing price was " + Price_json ['Header']['PrevClose'] +\
-                        ". Price changed by " + Price_json ['CurrRate']['Chg'] +\
-                        ", percentage change of " + Price_json ['CurrRate']['PcChg']
+                         " as on " + Price_json ['Header']['Ason'] +\
+                         " Current Price is " + Price_json ['Header']['LTP'] + \
+                         ", and opening price was " + Price_json ['Header']['Open'] +\
+                         ", with a high of " + Price_json ['Header']['High'] + \
+                         ", and low of " + Price_json ['Header']['Low'] + \
+                         ". Previous closing price was " + Price_json ['Header']['PrevClose'] +\
+                         ". Price changed by " + Price_json ['CurrRate']['Chg'] +\
+                         ", percentage change of " + Price_json ['CurrRate']['PcChg']
 
-        #except:
- #               speech = "An error occurred while fetching the data!"
-                #messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
-
-                return speech
+        except:
+                speech = "An error occurred while fetching the data!"
+ 
+        return speech
 
 
 def getperformance(companycode,query):
 
         try:
-                url = 'https://www.bseindia.com/stock-share-price/SiteCache/TabResult.aspx'
-                params = {'text': companycode, 'type': 'results' }
-                r = requests.get(url, params)
-                soup = BeautifulSoup(r.content, 'html.parser')
-                header = []
-                table =  soup('table')[1].findAll('tr')[0]
-                for td in table.find_all('td','indextabhead'):
-                        header.append(td.string)
 
-                results = []
-                for a in table.find_all('td','newseoscriptext'):
-                        results.append(a.get_text())
+                results_url = "https://api.bseindia.com/BseIndiaAPI/api/TabResults/w"
+                results_params = {'scripcode': companycode,'tabtype': 'RESULTS'}
 
-                data = []
-                for a in table.find_all('td','newseoscripfig'):
-                        data.append(a.get_text())
+                results_page = requests.get(url=results_url,params=results_params)
+                page = json.loads(results_page.content)
+                page_data2 = json.loads(page)
                 
                 x = 0
-                y = 2
-                speech = "For " + str(query).upper() + "\nAs on " + header[3] + "\n"
-                for list in results:
-                        speech = speech + (results[x] + " = " + data[y] + "\n")
+
+                
+                speech = "For " + str(query).upper() + " Results for " + (page_data2['col4']) + "\n"
+
+                for list in page_data2:
+                        speech = speech + (page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v3'])
                         x = x+1
-                        y = y+3
+
+                speech = speech ("Results for - " + (page_data2['col2']))
+                x=0
+                for list in page_data2:
+                        speech = speech + (page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v1'])
+                        x = x+1
+
+                
 
         except:
                 speech = "An error occurred while fetching the data!"
