@@ -33,6 +33,10 @@ def webhook():
                 companycode = getcompnaycode(companyname)
                 query = getcompnayname(companyname)
 
+        companyname = getcompanydetails(companyname)
+        query = companyname[0]
+        companycode = companyname[1]
+
         speech = "No action taken!-" + action
 
         if action == 'getstockprice_byname':
@@ -60,6 +64,18 @@ def responsedata(speech):
         r = make_response(res)
         r.headers['Content-Type'] = 'application/json'
         return r
+
+def getcompanydetails(query):
+        companycode_url ="https://api.bseindia.com/BseIndiaAPI/api/PeerSmartSearch/w"
+        companycode_params = {'Type' : 'EQ', "text" : query }
+        companycode_results = requests.get(companycode_url , companycode_params)
+        soup = BeautifulSoup(companycode_results.content, 'html.parser')
+        companyname = soup.find('a')
+        companyname = companyname.span.text
+        companydetails = companyname.split()
+
+        return [companydetails[0], companydetails[2]]
+
 
 def getcompnaycode(companyname):
 
