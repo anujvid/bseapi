@@ -30,12 +30,9 @@ def webhook():
         if companyname is None:
                 query = companycode
         else:
-                companycode = getcompnaycode(companyname)
-                query = getcompnayname(companyname)
-
-        companyname = getcompanydetails(companyname)
-        query = companyname[0]
-        companycode = companyname[1]
+                companyname = getcompanydetails(companyname)
+                query = companyname[0]
+                companycode = companyname[1]
 
         speech = "No action taken!-" + action
 
@@ -76,44 +73,6 @@ def getcompanydetails(query):
 
         return [companydetails[0], companydetails[2]]
 
-
-def getcompnaycode(companyname):
-
-        json_filename = "BSECodes.json"
-        # reads it back
-        with open(json_filename,"r") as f:
-                data = f.read()
-                # decoding the JSON to dictionay
-                d = json.loads(data)
-                query = companyname
-        try:
-                result = list([k for k in d if (companyname).lower() in k])
-                #print ("Comapnies found " + str(len(result)))
-                companycode = d[result[0]]['CompanyCode']
-                query = result[0]
-        except:
-                return None
-
-        return companycode
-
-def getcompnayname(companyname):
-
-        json_filename = "BSECodes.json"
-        # reads it back
-        with open(json_filename,"r") as f:
-                data = f.read()
-                # decoding the JSON to dictionay
-                d = json.loads(data)
-                query = companyname
-        try:
-                result = list([k for k in d if (companyname).lower() in k])
-                #print ("Comapnies found " + str(len(result)))
-                companycode = d[result[0]]['CompanyCode']
-                query = result[0]
-        except:
-                return None
-
-        return query
 
 def getstockquote(companycode,query):
         try:
