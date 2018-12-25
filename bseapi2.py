@@ -124,7 +124,7 @@ def getstockquote(companycode,query):
 
 def getperformance(companycode,query):
 
-        try:
+        #try:
 
                 results_url = "https://api.bseindia.com/BseIndiaAPI/api/TabResults/w"
                 results_params = {'scripcode': companycode,'tabtype': 'RESULTS'}
@@ -137,21 +137,22 @@ def getperformance(companycode,query):
                 speech = "For " + str(query).upper() + " Results for " + (page_data2['col4']) + "\n"
 
                 for list in page_data2:
-                        speech = speech + (page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v3'])
+                        speech = speech + (page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v3']) + "\n"
                         x = x+1
 
-                speech = speech + "Results for - " + (page_data2['col2'])
+                speech = speech + "Results for - " + (page_data2['col2']) + "\n"
+                
                 x=0
                 for list in page_data2:
-                        speech = speech + (page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v1'])
+                        speech = speech + (page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v1']) + "\n"
                         x = x+1
 
                 
 
-        except:
-                speech = "An error occurred while fetching the data!"
+        #except:
+ #               speech = "An error occurred while fetching the data!"
 
-        return speech
+                return speech
 
 def getbseindex():
     try:
