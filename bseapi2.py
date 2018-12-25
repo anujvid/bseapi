@@ -5,16 +5,17 @@ from json import dumps
 #from bs4 import BeautifulSoup
 #from lxml import html
 import re
-##from flask import Flask
-##from flask import request
-##from flask import make_response
+from flask import Flask
+from flask import request
+from flask import make_response
 
 
 
-##app = Flask(__name__)
+app = Flask(__name__)
 ##
 ##
-##@app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
+
 def webhook():
         
         req = request.get_json(silent=True, force=True)
