@@ -2,7 +2,7 @@ import os
 import json
 import sys
 from json import dumps
-#from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 #from lxml import html
 import re
 from flask import Flask
