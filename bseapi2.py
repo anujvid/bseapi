@@ -106,7 +106,7 @@ def getstockquote(companycode,query):
                 Price_page = requests.get(Price_url , Price_params)
                 Price_json = json.loads(Price_page.content)
 
-                speech = "For " + str(query).upper() + \
+                speech = "For " + Price_json['Cmpname']['FullN'] + \
                          " as on " + Price_json ['Header']['Ason'] +\
                          " Current Price is " + Price_json ['Header']['LTP'] + \
                          ", and opening price was " + Price_json ['Header']['Open'] +\
