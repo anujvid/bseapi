@@ -128,10 +128,10 @@ def getperformance(companycode,query):
 
                 results_url = "https://api.bseindia.com/BseIndiaAPI/api/TabResults/w"
                 results_params = {'scripcode': companycode,'tabtype': 'RESULTS'}
-
+                page_data2={}
                 results_page = requests.get(url=results_url,params=results_params)
                 page = json.loads(results_page.content)
-                page_data2 = json.loads(json.dumps(page))
+                page_data2 = json.loads(page)
                 x = 0
                 speech = "For " + str(query).upper() + " Results for " + str(page_data2['col4']) + "\n"
 
