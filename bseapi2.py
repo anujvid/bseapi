@@ -124,7 +124,7 @@ def getstockquote(companycode,query):
 
 def getperformance(companycode,query):
 
-        #try:
+        try:
 
                 results_url = "https://api.bseindia.com/BseIndiaAPI/api/TabResults/w"
                 results_params = {'scripcode': companycode,'tabtype': 'RESULTS'}
@@ -148,23 +148,27 @@ def getperformance(companycode,query):
 
                 
 
-        #except:
- #               speech = "An error occurred while fetching the data!"
+        except:
+                speech = "An error occurred while fetching the data!"
 
-                return speech
+        return speech
 
 def getbseindex():
     try:
         # make an API request here
-        url = "https://www.bseindia.com/Msource/IndexMovers.aspx?ln=en"
-        page = requests.get(url)
-        data = page.text
-        data = data.split(',')
-        w= 1.00417 
-        b= -0.144424
-        x = float(data[1])
-        newindex = round(((x*w)+b),2)
-        speech = data [0] + ": " +data [1] + " Change of " + data [2] + " points and % of " + data[3] + " and my prediction is : " + str(newindex) 
+        index_url = "https://api.bseindia.com/bseindia/api/Sensex/getSensexData"
+        fields = str("{'fields': '2,3,4,5,6,7'}")
+        index_params = {'json': fields }
+
+        index_json2={}
+        index_page = requests.get(url=index_url, params=index_params)
+        index_json = str(json.loads(index_page.content))
+        index_json = index_json.replace("[","")
+        index_json = index_json.replace("]","")
+        index_json = index_json.replace("'",'"')
+        index_json2 = json.loads(index_json)
+                
+        speech = "As on " + index_json2['dttm'] + " current index is " + index_json2['ltp'] + " Change of " + index_json2['chg'] + " points and % of " +  index_json2['perchg'] 
     except:
         speech = "Sorry! unable to fetch data."
     return (speech)
