@@ -35,7 +35,7 @@ def webhook():
 
         companyname = getcompanydetails(companyname)
         query = companyname[0]
-        companycode = companyname[2]
+        companycode = companyname[1]
 
         speech = "No action taken!-" + action
 
