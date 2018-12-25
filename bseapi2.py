@@ -134,17 +134,17 @@ def getperformance(companycode,query):
                 page_data2 = json.loads(page)
                 
                 x = 0
-                speech = "For " + str(query).upper() + " Results for " + page_data2['col4'] + "\n"
+                speech = "For " + str(query).upper() + " Results for " + str(page_data2['col4']) + "\n"
 
                 for list in page_data2:
-                        speech = speech + page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v3'] + "\n"
+                        speech = speech + str(page_data2['resultinCr'][x]['title']) + " is " + str(page_data2['resultinCr'][x]['v3']) + "\n"
                         x = x+1
 
-                speech = speech + "Results for - " + (page_data2['col2']) + "\n"
+                speech = speech + "Results for - " + str(page_data2['col2']) + "\n"
                 
                 x=0
                 for list in page_data2:
-                        speech = speech + page_data2['resultinCr'][x]['title'] + " is " + page_data2['resultinCr'][x]['v1'] + "\n"
+                        speech = speech + str(page_data2['resultinCr'][x]['title']) + " is " + str(page_data2['resultinCr'][x]['v1']) + "\n"
                         x = x+1
 
                 
