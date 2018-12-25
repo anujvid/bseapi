@@ -99,7 +99,7 @@ def getcompnayname(companyname):
         return query
 
 def getstockquote(companycode,query):
-        try:
+        #try:
                 Price_url = "https://api.bseindia.com/BseIndiaAPI/api/getScripHeaderData/w"
                 Price_params = {'scripcode': companycode, 'Debtflag' : '', 'seriesid': ''}
                 Price_page = requests.get(Price_url , Price_params)
@@ -114,13 +114,12 @@ def getstockquote(companycode,query):
                         ". Price changed by " + Price_json ['CurrRate']['Chg'] +\
                         ", percentage change of " + Price_json ['CurrRate']['PcChg']
 
-        except:
-                speech = "An error occurred while fetching the data!"
+        #except:
+ #               speech = "An error occurred while fetching the data!"
                 #messages = '[ { "platform" : "skype", "buttons":[ {"text": "Try Again", "postback":"again"} ] } ]'
-                
-        return speech
 
-        
+                return speech
+
 
 def getperformance(companycode,query):
 
